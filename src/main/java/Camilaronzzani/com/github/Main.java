@@ -29,7 +29,7 @@ public class Main {
                 opcao = scanner.nextInt();
                 scanner.nextLine(); // Limpa o buffer do scanner
             }catch (InputMismatchException e){
-                System.out.println("Caracter invalido");
+                System.out.println("Caracter inválido");
                 scanner.nextLine(); // Limpa o buffer do scanner
             }
 
@@ -42,13 +42,31 @@ public class Main {
                     String nome = scanner.nextLine();
                     Aluno aluno = new Aluno(nome);
 
-                    System.out.print("Data da aula (dd/mm/aaaa): ");
-                    String dataStr = scanner.nextLine();
-                    LocalDate data = LocalDate.parse(dataStr, formatadorData);
+                    LocalDate data = null; // Começa vazia
+                    while (data == null) {
+                        try {
+                            System.out.print("Data da aula (dd/mm/aaaa): ");
+                            String dataStr = scanner.nextLine();
 
-                    System.out.print("Horário da aula (hh:mm): ");
-                    String horaStr = scanner.nextLine();
-                    LocalTime horario = LocalTime.parse(horaStr, formatadorHora);
+                            data = LocalDate.parse(dataStr, formatadorData); //Se usuario digitar letra ou  formato errado
+
+                        } catch (Exception e) {
+                            System.out.println(" Erro: Use apenas números e barras.");
+                        }
+                    }
+
+                    LocalTime horario = null; // Começa com nulo para loop iniciar
+                    while (horario == null) {
+                        try {
+                            System.out.print("Horário da aula (hh:mm): ");
+                            String horaStr = scanner.nextLine();
+
+                            //Tenta converter a String para LocalTime usando seu formatador
+                            horario = LocalTime.parse(horaStr, formatadorHora);
+                        } catch (Exception e) {   //Se o usuário digitar "abc" ou "1400", o código cai aqui.
+                            System.out.println("Formato inválido!");
+                        }
+                    }
 
                     // Criação do agendamento
                     Aula novaAula = new Aula(aluno, data, horario);
