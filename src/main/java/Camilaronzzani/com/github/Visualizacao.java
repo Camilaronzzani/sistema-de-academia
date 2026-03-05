@@ -14,6 +14,12 @@ public class Visualizacao {
     private int opcao;
 
     public void menuPrincipal(){
+
+            Login login = new Login();
+
+            if(!login.autenticar()){
+                return;
+            }
         while (opcao != 4) {
             System.out.println("\n--- MENU PERSONAL TRAINER ---");
             System.out.println("1 - Agendar Aula (Cadastrar Aluno/Horário)");
