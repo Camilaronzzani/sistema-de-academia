@@ -34,19 +34,21 @@ public class DiarioDeTreino {
         }
     }
 
-    // Marcar presença pelo nome
-    public void marcarPresencaNoDiario(String nomeAluno) {
+    public void marcarPresencaNoDiario(String nomeAluno, LocalDate data) {
         boolean encontrado = false;
         for (Aula a : registros) {
-            // Verifica o nome e a aula que não foi marcada como presente
-            if (a.getAluno().getNome().equalsIgnoreCase(nomeAluno)) {
-                a.setCompareceu(true);
-                System.out.println("✓ Presença marcada no diário: " + a.getAluno().getNome());
+            if (a.getAluno().getNome().equalsIgnoreCase(nomeAluno) && a.getData().equals(data)) {
+                if (a.isCompareceu()) {
+                    System.out.println("Aviso: Presença já registrada para " + a.getAluno().getNome() + " em " + data.format(formatadorData) + ".");
+                } else {
+                    a.setCompareceu(true);
+                    System.out.println("✓ Presença marcada: " + a.getAluno().getNome() + " em " + data.format(formatadorData) + " às " + a.getHorario().format(formatadorHora));
+                }
                 encontrado = true;
             }
         }
         if (!encontrado) {
-            System.out.println("Aviso: Aluno '" + nomeAluno + "' não encontrado nos agendamentos.");
+            System.out.println("Aviso: Nenhuma aula encontrada para '" + nomeAluno + "' em " + data.format(formatadorData) + ".");
         }
     }
 
