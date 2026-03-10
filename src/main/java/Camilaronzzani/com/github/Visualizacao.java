@@ -10,16 +10,10 @@ public class Visualizacao {
     Scanner scanner = new Scanner(System.in);
     DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter formatadorHora = DateTimeFormatter.ofPattern("HH:mm");
-    DiarioDeTreino diario = new DiarioDeTreino();
+    Login.DiarioDeTreino diario = new Login.DiarioDeTreino();
     private int opcao;
 
     public void menuPrincipal(){
-
-            Login login = new Login();
-
-            if(!login.autenticar()){
-                return;
-            }
         while (opcao != 4) {
             System.out.println("\n--- MENU PERSONAL TRAINER ---");
             System.out.println("1 - Agendar Aula (Cadastrar Aluno/Horário)");
