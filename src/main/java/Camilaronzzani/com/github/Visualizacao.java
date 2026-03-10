@@ -10,10 +10,15 @@ public class Visualizacao {
     Scanner scanner = new Scanner(System.in);
     DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter formatadorHora = DateTimeFormatter.ofPattern("HH:mm");
-    Login.DiarioDeTreino diario = new Login.DiarioDeTreino();
+    DiarioDeTreino diario = new DiarioDeTreino();
     private int opcao;
 
     public void menuPrincipal(){
+        Login login = new Login();
+
+        if(!login.autenticar()){
+            return;
+        }
         while (opcao != 4) {
             System.out.println("\n--- MENU PERSONAL TRAINER ---");
             System.out.println("1 - Agendar Aula (Cadastrar Aluno/Horário)");
@@ -28,6 +33,7 @@ public class Visualizacao {
             }catch (InputMismatchException e){
                 System.out.println("Caracter inválido");
                 scanner.nextLine(); // Limpa o buffer do scanner
+                opcao = 0; //add pois dava erro de pegar o comando anterior
             }
 
 
@@ -101,16 +107,48 @@ public class Visualizacao {
         System.out.print("Digite o nome do aluno para confirmar presença: ");
         String nomePresenca = scanner.nextLine();
 
-        // Chama o "marcarPresencaNoDiario"
-        diario.marcarPresencaNoDiario(nomePresenca);
+        LocalDate dataPresenca = null;
+        while (dataPresenca == null) {
+            try {
+                System.out.print("Data da aula (dd/mm/aaaa): ");
+                String dataStr = scanner.nextLine();
+                dataPresenca = LocalDate.parse(dataStr, formatadorData);
+            } catch (Exception e) {
+                System.out.println("Erro: Use apenas números e barras.");
+            }
+        }
+
+        diario.marcarPresencaNoDiario(nomePresenca, dataPresenca);
     }
 
     private void opcaoTres(){
-        // Mostra o diário completo com o check [V] ou [] que você criou
         diario.exibirTodosOsTreinos();
 
-        // Filtro adicional para faltas de hoje
-        System.out.println("\n--- Resumo de Faltas de Hoje (" + LocalDate.now().format(formatadorData) + ") ---");
-        diario.verFaltasDoDia(LocalDate.now());
+        System.out.println("\nConsultar faltas de qual data?");
+        System.out.println("1 - Hoje (" + LocalDate.now().format(formatadorData) + ")");
+        System.out.println("2 - Outra data");
+        System.out.print("Escolha: ");
+
+        LocalDate dataFaltas = LocalDate.now();
+        try {
+            int escolha = scanner.nextInt();
+            scanner.nextLine();
+            if (escolha == 2) {
+                dataFaltas = null;
+                while (dataFaltas == null) {
+                    try {
+                        System.out.print("Data (dd/mm/aaaa): ");
+                        String dataStr = scanner.nextLine();
+                        dataFaltas = LocalDate.parse(dataStr, formatadorData);
+                    } catch (Exception e) {
+                        System.out.println("Erro: Use apenas números e barras.");
+                    }
+                }
+            }
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+        }
+
+        diario.verFaltasDoDia(dataFaltas);
     }
 }
