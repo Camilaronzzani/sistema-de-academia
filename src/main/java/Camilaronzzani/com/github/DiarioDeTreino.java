@@ -69,4 +69,5 @@ public class DiarioDeTreino {
     public List<Aula> getRegistros() {
         return registros;
     }
+
 }

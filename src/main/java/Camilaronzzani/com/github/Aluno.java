@@ -2,9 +2,19 @@ package Camilaronzzani.com.github;
 
 public class Aluno {
     private String nome;
+    private String cpf;
 
-    public Aluno(String nome){
+    public Aluno(String nome, String cpf) {
         this.nome = nome;
+        this.cpf = cpf;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getNome() {

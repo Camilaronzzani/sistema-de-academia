@@ -68,7 +68,9 @@ public class Visualizacao {
         // Entrada de dados para criar o Aluno e a Aula
         System.out.print("Nome do Aluno: ");
         String nome = scanner.nextLine();
-        Aluno aluno = new Aluno(nome);
+        System.out.println("digite o cpf");
+        String cpf = scanner.nextLine();
+        Aluno aluno = new Aluno(nome, cpf);
 
         LocalDate data = null; // Começa vazia
         while (data == null) {
@@ -77,8 +79,11 @@ public class Visualizacao {
                 String dataStr = scanner.nextLine();
 
                 data = LocalDate.parse(dataStr, formatadorData); //Se usuario digitar letra ou  formato errado
-
-            } catch (Exception e) {
+                if (data.isBefore(LocalDate.now())) {
+                    System.out.println("A data tem que ser a partir de hoje!");
+                    data = null;
+                }
+            }catch (Exception e) {
                 System.out.println(" Erro: Use apenas números e barras.");
             }
         }
