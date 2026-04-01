@@ -151,6 +151,7 @@ public class Visualizacao {
                 }
             }
         } catch (InputMismatchException e) {
+            System.out.println("Opção inválida! Use apenas números.");
             scanner.nextLine();
         }
 
