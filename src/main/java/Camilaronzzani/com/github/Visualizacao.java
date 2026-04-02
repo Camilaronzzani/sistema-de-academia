@@ -78,10 +78,11 @@ public class Visualizacao {
                 System.out.print("Data da aula (dd/mm/aaaa): ");
                 String dataStr = scanner.nextLine();
 
-                data = LocalDate.parse(dataStr, formatadorData); //Se usuario digitar letra ou  formato errado
-                if (data.isBefore(LocalDate.now())) {
+                LocalDate dataDigitada = LocalDate.parse(dataStr, formatadorData); //Se usuario digitar letra ou  formato errado
+                if (dataDigitada.isBefore(LocalDate.now())) {
                     System.out.println("A data tem que ser a partir de hoje!");
-                    data = null;
+                } else {
+                    data = dataDigitada; //Só aceita a data de hoje ou no futuro
                 }
             }catch (Exception e) {
                 System.out.println(" Erro: Use apenas números e barras.");
