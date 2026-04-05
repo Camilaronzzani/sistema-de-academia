@@ -70,7 +70,7 @@ public class Visualizacao {
         String nome = scanner.nextLine();
         System.out.println("digite o cpf");
         String cpf = scanner.nextLine();
-        Aluno aluno = new Aluno(nome, cpf);
+
 
         LocalDate data = null; // Começa vazia
         while (data == null) {
@@ -87,6 +87,7 @@ public class Visualizacao {
             }catch (Exception e) {
                 System.out.println(" Erro: Use apenas números e barras.");
             }
+
         }
 
         LocalTime horario = null; // Começa com nulo para loop iniciar
@@ -100,6 +101,14 @@ public class Visualizacao {
             } catch (Exception e) {   //Se o usuário digitar "abc" ou "1400", o código cai aqui.
                 System.out.println("Formato inválido!");
             }
+        }
+
+        Aluno aluno = new Aluno(nome, cpf);
+
+        //mesma data, horario e cpf = cancela
+        if (diario.conflitoDeHorario(cpf, data, horario)) {
+            System.out.println("Esse aluno já tem aula nesse horário!");
+            return;
         }
 
         // Criação do agendamento

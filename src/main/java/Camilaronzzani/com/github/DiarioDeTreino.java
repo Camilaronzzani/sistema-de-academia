@@ -1,5 +1,6 @@
 package Camilaronzzani.com.github;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,19 @@ public class DiarioDeTreino {
         } catch (Exception e) {
             System.out.println("Erro ao verificar faltas: " + e.getMessage());
         }
+    }
+    //arrumando os comflitos de hora, data e cpf
+    public boolean conflitoDeHorario(String cpf, LocalDate data, LocalTime horario) {
+        for (Aula a : registros) {
+            if (
+                    a.getAluno().getCpf().equals(cpf) &&
+                            a.getData().equals(data) &&
+                            a.getHorario().equals(horario)
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Getter para o Main poder listar se necessário
