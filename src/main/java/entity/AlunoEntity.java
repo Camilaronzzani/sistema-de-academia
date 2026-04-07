@@ -1,11 +1,11 @@
-package model;
+package entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "alunos")
-public class Aluno {
+public class AlunoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +30,9 @@ public class Aluno {
     @Column(name = "foto_facial", length = 255)
     private String fotoFacial;
 
-    public Aluno() {}
+    public AlunoEntity() {}
 
-    public Aluno(String nome, String cpf, LocalDate dataNascimento, LocalDate dataMatricula) {
+    public AlunoEntity(String nome, String cpf, LocalDate dataNascimento, LocalDate dataMatricula) {
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
