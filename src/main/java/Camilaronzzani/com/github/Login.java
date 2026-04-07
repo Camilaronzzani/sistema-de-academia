@@ -3,7 +3,7 @@ package Camilaronzzani.com.github;
 import java.util.Scanner;
 
 public class Login {
-    private String senha = "@cadeMia";
+    private String senha = "123A";
     public boolean autenticar (){
         Scanner scanner = new Scanner(System.in);
         try {

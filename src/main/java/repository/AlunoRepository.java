@@ -1,7 +1,7 @@
 package repository;
 
 import config.HibernateUtil;
-import model.Aluno;
+import entity.AlunoEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -10,11 +10,11 @@ import java.util.Optional;
 
 public class AlunoRepository {
 
-    public void salvar(Aluno aluno) {
+    public void salvar(AlunoEntity alunoEntity) {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.save(aluno);
+            session.save(alunoEntity);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -22,31 +22,31 @@ public class AlunoRepository {
         }
     }
 
-    public Optional<Aluno> buscarPorId(Long id) {
+    public Optional<AlunoEntity> buscarPorId(Long id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return Optional.ofNullable(session.get(Aluno.class, id));
+            return Optional.ofNullable(session.get(AlunoEntity.class, id));
         }
     }
 
-    public Optional<Aluno> buscarPorCpf(String cpf) {
+    public Optional<AlunoEntity> buscarPorCpf(String cpf) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Aluno WHERE cpf = :cpf", Aluno.class)
+            return session.createQuery("FROM AlunoEntity WHERE cpf = :cpf", AlunoEntity.class)
                     .setParameter("cpf", cpf)
                     .uniqueResultOptional();
         }
     }
 
-    public List<Aluno> listarTodos() {
+    public List<AlunoEntity> listarTodos() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Aluno", Aluno.class).list();
+            return session.createQuery("FROM AlunoEntity", AlunoEntity.class).list();
         }
     }
 
-    public void atualizar(Aluno aluno) {
+    public void atualizar(AlunoEntity alunoEntity) {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.update(aluno);
+            session.update(alunoEntity);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -58,8 +58,8 @@ public class AlunoRepository {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            Aluno aluno = session.get(Aluno.class, id);
-            if (aluno != null) session.delete(aluno);
+            AlunoEntity alunoEntity = session.get(AlunoEntity.class, id);
+            if (alunoEntity != null) session.delete(alunoEntity);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
