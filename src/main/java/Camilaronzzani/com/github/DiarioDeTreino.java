@@ -5,99 +5,72 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import entity.StatusPresenca;
 
 public class DiarioDeTreino {
 
-    // A lista de registros
     private List<Aula> registros = new ArrayList<>();
 
     DateTimeFormatter formatadorData = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter formatadorHora = DateTimeFormatter.ofPattern("HH:mm");
 
-
-    // Anotar treino, agora com a confirmação visual do usuário
     public void anotarNovoTreino(Aula aula) {
-        try {
-            registros.add(aula);
-            System.out.println("\n--- AGENDAMENTO REALIZADO ---");
-            System.out.println("Aluno: " + aula.getAluno().getNome() + " | Data: " + formatadorData.format(aula.getData()));
-        } catch (Exception e) {
-            System.out.println("Erro ao anotar treino: " + e.getMessage());
-        }
+        registros.add(aula);
+        System.out.println("Aula agendada para " + aula.getAluno().getNome() + " no dia " + aula.getData().format(formatadorData));
     }
 
-    //  Exibir todos os registros (O seu "DIÁRIO DE TREINOS")
     public void exibirTodosOsTreinos() {
-        try {
-            if (registros.isEmpty()) {
-                System.out.println("\nO diário está vazio.");
-                return;
-            }
-            System.out.println("\n--- DIÁRIO DE TREINOS COMPLETO ---");
-            for (Aula a : registros) {
-                String check = a.isCompareceu() ? "[V] TREINOU" : "[] AGENDADO";
-                System.out.println(check + " | " + a.getAluno().getNome() + " | " + a.getData() + " às " + a.getHorario());
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao exibir treinos: " + e.getMessage());
+        if (registros.isEmpty()) {
+            System.out.println("Nao tem nenhum treino cadastrado ainda.");
+            return;
+        }
+        for (Aula a : registros) {
+            System.out.println(a.getAluno().getNome() + " - " + a.getData().format(formatadorData) + " " + a.getHorario().format(formatadorHora) + " - " + a.getStatusPresenca().getDescricao());
         }
     }
 
     public void marcarPresencaNoDiario(String nomeAluno, LocalDate data) {
-        try {
-            boolean encontrado = false;
-            for (Aula a : registros) {
-                if (a.getAluno().getNome().equalsIgnoreCase(nomeAluno) && a.getData().equals(data)) {
-                    if (a.isCompareceu()) {
-                        System.out.println("Aviso: Presença já registrada para " + a.getAluno().getNome() + " em " + data.format(formatadorData) + ".");
-                    } else {
-                        a.setCompareceu(true);
-                        System.out.println("✓ Presença marcada: " + a.getAluno().getNome() + " em " + data.format(formatadorData) + " às " + a.getHorario().format(formatadorHora));
-                    }
-                    encontrado = true;
+        boolean encontrou = false;
+        for (Aula a : registros) {
+            if (a.getAluno().getNome().equalsIgnoreCase(nomeAluno) && a.getData().equals(data)) {
+                if (a.getStatusPresenca() == StatusPresenca.PRESENTE) {
+                    System.out.println("Presenca ja foi marcada antes.");
+                } else {
+                    a.setStatusPresenca(StatusPresenca.PRESENTE);
+                    System.out.println("Presenca marcada com sucesso!");
                 }
+                encontrou = true;
             }
-            if (!encontrado) {
-                System.out.println("Aviso: Nenhuma aula encontrada para '" + nomeAluno + "' em " + data.format(formatadorData) + ".");
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao marcar presença: " + e.getMessage());
+        }
+        if (!encontrou) {
+            System.out.println("Nao encontrei nenhuma aula para esse aluno nessa data.");
         }
     }
 
-    // Filtro para o Personal saber quem falta treinar (Requisito 3 do menu)
     public void verFaltasDoDia(LocalDate data) {
-        try {
-            System.out.println("\n--- ALUNOS QUE AINDA NÃO COMPARECERAM (" + data + ") ---");
-            boolean temFalta = false;
-            for (Aula a : registros) {
-                if (a.getData().equals(data) && !a.isCompareceu()) {
-                    System.out.println("- " + a.getAluno().getNome() + " às " + a.getHorario());
-                    temFalta = true;
-                }
+        System.out.println("Alunos que nao vieram em " + data.format(formatadorData) + ":");
+        boolean temAlguem = false;
+        for (Aula a : registros) {
+            if (a.getData().equals(data) && a.getStatusPresenca() != StatusPresenca.PRESENTE) {
+                System.out.println("- " + a.getAluno().getNome() + " as " + a.getHorario().format(formatadorHora));
+                temAlguem = true;
             }
-            if (!temFalta) System.out.println("Nenhuma pendência para esta data!");
-        } catch (Exception e) {
-            System.out.println("Erro ao verificar faltas: " + e.getMessage());
+        }
+        if (!temAlguem) {
+            System.out.println("Todo mundo veio!");
         }
     }
-    //arrumando os comflitos de hora, data e cpf
+
     public boolean conflitoDeHorario(String cpf, LocalDate data, LocalTime horario) {
         for (Aula a : registros) {
-            if (
-                    a.getAluno().getCpf().equals(cpf) &&
-                            a.getData().equals(data) &&
-                            a.getHorario().equals(horario)
-            ) {
+            if (a.getAluno().getCpf().equals(cpf) && a.getData().equals(data) && a.getHorario().equals(horario)) {
                 return true;
             }
         }
         return false;
     }
 
-    // Getter para o Main poder listar se necessário
     public List<Aula> getRegistros() {
         return registros;
     }
-
 }

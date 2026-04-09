@@ -2,28 +2,28 @@ package Camilaronzzani.com.github;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import entity.StatusPresenca;
 
 public class Aula {
     private Aluno aluno;
     private LocalDate data;
     private LocalTime horario;
-    private  boolean compareceu;
+    private StatusPresenca statusPresenca;
 
 
     public Aula(Aluno aluno, LocalDate data, LocalTime horario) {
         this.aluno = aluno;
         this.data = data;
         this.horario = horario;
-        this.compareceu = false; // Inicia como não compareceu
-
+        this.statusPresenca = StatusPresenca.AGENDADO;
     }
 
-    public boolean isCompareceu() {
-        return compareceu;
+    public StatusPresenca getStatusPresenca() {
+        return statusPresenca;
     }
 
-    public void setCompareceu(boolean compareceu) {
-        this.compareceu = compareceu;
+    public void setStatusPresenca(StatusPresenca statusPresenca) {
+        this.statusPresenca = statusPresenca;
     }
 
     public LocalDate getData() {

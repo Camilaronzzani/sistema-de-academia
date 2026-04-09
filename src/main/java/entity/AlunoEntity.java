@@ -2,6 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import entity.StatusAluno;
 
 @Entity
 @Table(name = "alunos")
@@ -30,6 +31,10 @@ public class AlunoEntity {
     @Column(name = "foto_facial", length = 255)
     private String fotoFacial;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private StatusAluno status;
+
     public AlunoEntity() {}
 
     public AlunoEntity(String nome, String cpf, LocalDate dataNascimento, LocalDate dataMatricula) {
@@ -37,6 +42,7 @@ public class AlunoEntity {
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
         this.dataMatricula = dataMatricula;
+        this.status = StatusAluno.ATIVO;
     }
 
     public Long getId() { return id; }
@@ -58,4 +64,7 @@ public class AlunoEntity {
 
     public String getFotoFacial() { return fotoFacial; }
     public void setFotoFacial(String fotoFacial) { this.fotoFacial = fotoFacial; }
+
+    public StatusAluno getStatus() { return status; }
+    public void setStatus(StatusAluno status) { this.status = status; }
 }

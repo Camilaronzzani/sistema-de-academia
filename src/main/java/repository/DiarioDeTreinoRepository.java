@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-    public class DiarioDeTreinoRepository {
+    public class DiarioDeTreinoRepository implements Repositorio<DiarioDeTreinoEntity, Long> {
 
         public void salvar(DiarioDeTreinoEntity diarioEntity) {
             Transaction tx = null;
@@ -28,7 +28,6 @@ import java.util.Optional;
             }
         }
 
-        // Busca todos os treinos de um aluno específico usando o ID do aluno
         public List<DiarioDeTreinoEntity> listarPorAluno(Long idAluno) {
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 return session.createQuery("FROM DiarioDeTreinoEntity WHERE aluno.id = :idAluno", DiarioDeTreinoEntity.class)

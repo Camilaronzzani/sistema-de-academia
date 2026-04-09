@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-public class AlunoRepository {
+public class AlunoRepository implements Repositorio<AlunoEntity, Long> {
 
     public void salvar(AlunoEntity alunoEntity) {
         Transaction tx = null;

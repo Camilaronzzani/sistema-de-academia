@@ -14,7 +14,7 @@ public class Visualizacao {
     private int opcao;
 
     public void menuPrincipal(){
-        Login login = new Login();
+        Autenticavel login = new Login();
 
         if(!login.autenticar()){
             return;
@@ -29,13 +29,12 @@ public class Visualizacao {
 
             try{
                 opcao = scanner.nextInt();
-                scanner.nextLine(); // Limpa o buffer do scanner
+                scanner.nextLine();
             }catch (InputMismatchException e){
                 System.out.println("Caracter inválido");
-                scanner.nextLine(); // Limpa o buffer do scanner
-                opcao = 0; //add pois dava erro de pegar o comando anterior
+                scanner.nextLine();
+                opcao = 0;
             }
-
 
             switch (opcao) {
                 case 1:
@@ -63,58 +62,48 @@ public class Visualizacao {
         scanner.close();
     }
 
-
     private void opcaoUm(){
-        // Entrada de dados para criar o Aluno e a Aula
         System.out.print("Nome do Aluno: ");
         String nome = scanner.nextLine();
         System.out.println("digite o cpf");
         String cpf = scanner.nextLine();
 
-
-        LocalDate data = null; // Começa vazia
+        LocalDate data = null;
         while (data == null) {
             try {
                 System.out.print("Data da aula (dd/mm/aaaa): ");
                 String dataStr = scanner.nextLine();
 
-                LocalDate dataDigitada = LocalDate.parse(dataStr, formatadorData); //Se usuario digitar letra ou  formato errado
+                LocalDate dataDigitada = LocalDate.parse(dataStr, formatadorData);
                 if (dataDigitada.isBefore(LocalDate.now())) {
                     System.out.println("A data tem que ser a partir de hoje!");
                 } else {
-                    data = dataDigitada; //Só aceita a data de hoje ou no futuro
+                    data = dataDigitada;
                 }
             }catch (Exception e) {
                 System.out.println(" Erro: Use apenas números e barras.");
             }
-
         }
 
-        LocalTime horario = null; // Começa com nulo para loop iniciar
+        LocalTime horario = null;
         while (horario == null) {
             try {
                 System.out.print("Horário da aula (hh:mm): ");
                 String horaStr = scanner.nextLine();
-
-                //Tenta converter a String para LocalTime usando seu formatador
                 horario = LocalTime.parse(horaStr, formatadorHora);
-            } catch (Exception e) {   //Se o usuário digitar "abc" ou "1400", o código cai aqui.
+            } catch (Exception e) {
                 System.out.println("Formato inválido!");
             }
         }
 
         Aluno aluno = new Aluno(nome, cpf);
 
-        //mesma data, horario e cpf = cancela
         if (diario.conflitoDeHorario(cpf, data, horario)) {
             System.out.println("Esse aluno já tem aula nesse horário!");
             return;
         }
 
-        // Criação do agendamento
         Aula novaAula = new Aula(aluno, data, horario);
-
-        // Chama o "anotarNovoTreino"
         diario.anotarNovoTreino(novaAula);
     }
 

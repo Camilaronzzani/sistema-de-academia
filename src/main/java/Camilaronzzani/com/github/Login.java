@@ -2,7 +2,7 @@ package Camilaronzzani.com.github;
 
 import java.util.Scanner;
 
-public class Login {
+public class Login implements Autenticavel {
     private String senha = "123A";
     public boolean autenticar (){
         Scanner scanner = new Scanner(System.in);
