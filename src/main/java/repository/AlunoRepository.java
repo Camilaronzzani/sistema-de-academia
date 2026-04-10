@@ -40,9 +40,23 @@ public class AlunoRepository implements Repositorio<AlunoEntity, Long> {
 
     public void atualizar(AlunoEntity aluno) { //bia
         throw new UnsupportedOperationException("Edicao de alunos nao implementada.");
+        try(Session session = HibernateUtil.getSessionFactory().openSession());
+            tx = session.beginTransaction();
+                    session.merge(aluno);
+
+            tx.commit();
     }
+
 
     public void deletar(Long id) { //bia
         throw new UnsupportedOperationException("Exclusao de alunos nao implementada.");
     }
+    Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        tx = session.beginTransaction();
+        AlunoEntity aluno = session.get(AlunoEntity.class, id);
+        if (aluno != null) {
+            session.delete(aluno);
+        }
+        tx.commit();
 }
