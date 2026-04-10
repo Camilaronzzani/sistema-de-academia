@@ -17,9 +17,12 @@ public class AgendamentoService {
         if (agendamento.getAluno() == null || agendamento.getAluno().getStatus() != StatusAluno.ATIVO) {
             throw new IllegalArgumentException("Apenas alunos ativos podem fazer agendamentos.");
         }
-        if (agendamento.getDataHora() == null || !agendamento.getDataHora().isAfter(LocalDateTime.now())) {
-            throw new IllegalArgumentException("A data do agendamento precisa ser futura.");
+        LocalDateTime dataHora = agendamento.getDisponibilidade().getData()
+                .atTime(agendamento.getDisponibilidade().getHoraInicio());
+        if (!dataHora.isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Esse horario ja passou.");
         }
+        agendamento.setDataHora(dataHora);
         agendamentoRepository.salvar(agendamento);
     }
 

@@ -47,4 +47,30 @@ public class AlunoService {
     public List<AlunoEntity> listarTodos() {
         return alunoRepository.listarTodos();
     }
+
+    public void atualizar(AlunoEntity aluno) {
+        Validador.validarNome(aluno.getNome());
+        Validador.validarCpf(aluno.getCpf());
+        if (aluno.getTelefone() != null && !aluno.getTelefone().isBlank()) {
+            Validador.validarTelefone(aluno.getTelefone());
+        }
+        if (aluno.getEmail() != null && !aluno.getEmail().isBlank()) {
+            Validador.validarEmail(aluno.getEmail());
+        }
+        alunoRepository.atualizar(aluno);
+    }
+
+    public void cancelar(Long id) {
+        AlunoEntity aluno = alunoRepository.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Aluno nao encontrado."));
+        aluno.setStatus(entity.StatusAluno.INATIVO);
+        alunoRepository.atualizar(aluno);
+    }
+
+    public void deletar(Long id) {
+        AlunoEntity aluno = alunoRepository.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Aluno nao encontrado."));
+        aluno.setStatus(entity.StatusAluno.EXCLUIDO);
+        alunoRepository.atualizar(aluno);
+    }
 }

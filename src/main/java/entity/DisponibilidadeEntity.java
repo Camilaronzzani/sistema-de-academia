@@ -1,6 +1,7 @@
 package entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import entity.StatusDisponibilidade;
 
@@ -17,9 +18,8 @@ public class DisponibilidadeEntity {
     @JoinColumn(name = "id_personal", nullable = false)
     private PersonalEntity personal;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "dia_semana", length = 20)
-    private DiaSemana diaSemana;
+    @Column(name = "data", nullable = false)
+    private LocalDate data;
 
     @Column(name = "hora_inicio", nullable = false)
     private LocalTime horaInicio;
@@ -33,9 +33,9 @@ public class DisponibilidadeEntity {
 
     public DisponibilidadeEntity() {}
 
-    public DisponibilidadeEntity(PersonalEntity personal, DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFim) {
+    public DisponibilidadeEntity(PersonalEntity personal, LocalDate data, LocalTime horaInicio, LocalTime horaFim) {
         this.personal = personal;
-        this.diaSemana = diaSemana;
+        this.data = data;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
         this.status = StatusDisponibilidade.ATIVO;
@@ -46,8 +46,8 @@ public class DisponibilidadeEntity {
     public PersonalEntity getPersonal() { return personal; }
     public void setPersonal(PersonalEntity personal) { this.personal = personal; }
 
-    public DiaSemana getDiaSemana() { return diaSemana; }
-    public void setDiaSemana(DiaSemana diaSemana) { this.diaSemana = diaSemana; }
+    public LocalDate getData() { return data; }
+    public void setData(LocalDate data) { this.data = data; }
 
     public LocalTime getHoraInicio() { return horaInicio; }
     public void setHoraInicio(LocalTime horaInicio) { this.horaInicio = horaInicio; }

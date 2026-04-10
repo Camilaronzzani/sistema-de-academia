@@ -3,6 +3,7 @@ package service;
 import entity.DisponibilidadeEntity;
 import repository.DisponibilidadeRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,9 @@ public class DisponibilidadeService {
     DisponibilidadeRepository disponibilidadeRepository = new DisponibilidadeRepository();
 
     public void cadastrar(DisponibilidadeEntity disponibilidade) {
+        if (disponibilidade.getData().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("A data da disponibilidade nao pode ser no passado.");
+        }
         if (disponibilidade.getHoraInicio().isAfter(disponibilidade.getHoraFim())) {
             throw new IllegalArgumentException("Hora de inicio nao pode ser depois da hora de fim.");
         }

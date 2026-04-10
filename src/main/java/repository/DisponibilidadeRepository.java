@@ -26,7 +26,12 @@ public class DisponibilidadeRepository implements Repositorio<DisponibilidadeEnt
 
     public List<DisponibilidadeEntity> listarTodos() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM DisponibilidadeEntity", DisponibilidadeEntity.class).list();
+            return session.createQuery(
+                    "FROM DisponibilidadeEntity d WHERE d.status = 'ATIVO' " +
+                    "AND NOT EXISTS (" +
+                    "  SELECT a FROM AgendamentoEntity a WHERE a.disponibilidade = d " +
+                    "  AND a.status IN ('AGENDADO', 'CONFIRMADO')" +
+                    ")", DisponibilidadeEntity.class).list();
         }
     }
 
