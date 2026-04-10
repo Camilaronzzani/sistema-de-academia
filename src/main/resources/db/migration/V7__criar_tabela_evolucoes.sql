@@ -9,6 +9,6 @@ create table evolucoes (
     perc_gordura decimal(5,2),
     massa_muscular decimal(5,2),
     obs text,
-    foreign key (id_aluno) references alunos (id_aluno),
+    foreign key (id_aluno) references alunos (id_alunos),
     foreign key (id_personal) references personais (id_personal)
 );

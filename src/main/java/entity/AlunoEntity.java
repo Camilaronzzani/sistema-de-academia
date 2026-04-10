@@ -3,10 +3,11 @@ package entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import entity.StatusAluno;
+import Camilaronzzani.com.github.Identificavel;
 
 @Entity
 @Table(name = "alunos")
-public class AlunoEntity {
+public class AlunoEntity implements Identificavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,9 @@ public class AlunoEntity {
 
     @Column(name = "data_matricula", nullable = false)
     private LocalDate dataMatricula;
+
+    @Column(name = "email", length = 100)
+    private String email;
 
     @Column(name = "foto_facial", length = 255)
     private String fotoFacial;
@@ -61,6 +65,9 @@ public class AlunoEntity {
 
     public LocalDate getDataMatricula() { return dataMatricula; }
     public void setDataMatricula(LocalDate dataMatricula) { this.dataMatricula = dataMatricula; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public String getFotoFacial() { return fotoFacial; }
     public void setFotoFacial(String fotoFacial) { this.fotoFacial = fotoFacial; }

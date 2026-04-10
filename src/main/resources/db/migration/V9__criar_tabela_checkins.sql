@@ -7,5 +7,5 @@ create table checkins (
     confirmado int not null default 1,
     obs text,
     foreign key (id_agendamento) references agendamentos (id_agendamento),
-    foreign key (id_aluno) references alunos (id_aluno)
+    foreign key (id_aluno) references alunos (id_alunos)
 );

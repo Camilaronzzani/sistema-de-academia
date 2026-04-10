@@ -7,7 +7,7 @@ public class FlywayConfig {
         Flyway flyway = Flyway.configure()
                 .dataSource(
                         "jdbc:postgresql://localhost:5432/uniamerica",
-                        "postgres",
+                        "root",
                         "root"
                 )
                 .baselineOnMigrate(true)

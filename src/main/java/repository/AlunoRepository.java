@@ -10,15 +10,11 @@ import java.util.Optional;
 
 public class AlunoRepository implements Repositorio<AlunoEntity, Long> {
 
-    public void salvar(AlunoEntity alunoEntity) {
-        Transaction tx = null;
+    public void salvar(AlunoEntity aluno) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.save(alunoEntity);
+            Transaction tx = session.beginTransaction();
+            session.save(aluno);
             tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
         }
     }
 
@@ -42,28 +38,11 @@ public class AlunoRepository implements Repositorio<AlunoEntity, Long> {
         }
     }
 
-    public void atualizar(AlunoEntity alunoEntity) {
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            session.update(alunoEntity);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+    public void atualizar(AlunoEntity aluno) { //bia
+        throw new UnsupportedOperationException("Edicao de alunos nao implementada.");
     }
 
-    public void deletar(Long id) {
-        Transaction tx = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-            AlunoEntity alunoEntity = session.get(AlunoEntity.class, id);
-            if (alunoEntity != null) session.delete(alunoEntity);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw e;
-        }
+    public void deletar(Long id) { //bia
+        throw new UnsupportedOperationException("Exclusao de alunos nao implementada.");
     }
 }

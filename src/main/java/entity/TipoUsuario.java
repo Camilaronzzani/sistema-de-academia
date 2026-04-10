@@ -1,13 +1,12 @@
 package entity;
 
-public enum StatusPresenca {
-    AGENDADO("Agendado"),
-    PRESENTE("Presente"),
-    FALTOU("Faltou");
+public enum TipoUsuario {
+    ALUNO("Aluno"),
+    PERSONAL("Personal");
 
     private final String descricao;
 
-    StatusPresenca(String descricao) {
+    TipoUsuario(String descricao) {
         this.descricao = descricao;
     }
 

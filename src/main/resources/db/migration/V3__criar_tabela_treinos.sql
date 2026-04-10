@@ -6,6 +6,6 @@ create table treinos (
     data_fim date,
     objetivo text,
     nivel varchar(20),
-    foreign key (id_aluno) references alunos (id_aluno),
+    foreign key (id_aluno) references alunos (id_alunos),
     foreign key (id_personal) references personais (id_personal)
 );

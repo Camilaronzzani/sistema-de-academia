@@ -3,7 +3,7 @@ create table treinos_exercicios (
     id_exercicio int not null,
     series int not null,
     repeticoes int not null,
-    carga varchar(50),
+    carga decimal(6,2),
     obs text,
     primary key (id_treino, id_exercicio),
     foreign key (id_treino) references treinos (id_treino),
