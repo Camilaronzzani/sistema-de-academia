@@ -75,11 +75,20 @@ public class AgendamentoRepository implements Repositorio<AgendamentoEntity, Lon
         }
     }
 
-    public void atualizar(AgendamentoEntity agendamento) {//bia
-        throw new UnsupportedOperationException("Edicao de agendamentos nao implementada.");
+    public void atualizar(AgendamentoEntity agendamento) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+            session.merge(agendamento);
+            tx.commit();
+        }
     }
 
-    public void deletar(Long id) { //bia
-        throw new UnsupportedOperationException("Exclusao de agendamentos nao implementada.");
+    public void deletar(Long id) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction tx = session.beginTransaction();
+            AgendamentoEntity ag = session.get(AgendamentoEntity.class, id);
+            if (ag != null) session.delete(ag);
+            tx.commit();
+        }
     }
 }

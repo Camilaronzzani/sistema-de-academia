@@ -30,6 +30,10 @@ public class AgendamentoService {
         return agendamentoRepository.buscarPorId(id);
     }
 
+    public List<AgendamentoEntity> listarTodos() {
+        return agendamentoRepository.listarTodos();
+    }
+
     public List<AgendamentoEntity> listarPorAluno(Long idAluno) {
         return agendamentoRepository.listarPorAluno(idAluno);
     }
@@ -44,5 +48,15 @@ public class AgendamentoService {
 
     public List<AgendamentoEntity> listarSemCheckin(Long idAluno) {
         return agendamentoRepository.listarSemCheckin(idAluno);
+    }
+
+    public void cancelar(Long id) {
+        AgendamentoEntity ag = agendamentoRepository.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Agendamento nao encontrado."));
+        if (ag.getStatus() == entity.StatusAgendamento.CANCELADO) {
+            throw new IllegalArgumentException("Esse agendamento ja esta cancelado.");
+        }
+        ag.setStatus(entity.StatusAgendamento.CANCELADO);
+        agendamentoRepository.atualizar(ag);
     }
 }

@@ -111,20 +111,22 @@ public class Visualizacao {
             System.out.println("1 - Ver horarios disponiveis");
             System.out.println("2 - Fazer agendamento");
             System.out.println("3 - Meus agendamentos");
-            System.out.println("4 - Meu treino");
-            System.out.println("5 - Fazer checkin");
-            System.out.println("6 - Agendamentos pendentes");
-            System.out.println("7 - Sair");
+            System.out.println("4 - Cancelar agendamento");
+            System.out.println("5 - Meu treino");
+            System.out.println("6 - Fazer checkin");
+            System.out.println("7 - Agendamentos pendentes");
+            System.out.println("8 - Sair");
             System.out.print("Escolha: ");
 
             switch (lerInt()) {
                 case 1: verHorariosDisponiveis(); break;
                 case 2: fazerAgendamento(aluno); break;
                 case 3: meusAgendamentos(aluno); break;
-                case 4: meuTreino(aluno); break;
-                case 5: checkinAluno(aluno); break;
-                case 6: agendamentosPendentes(aluno); break;
-                case 7: System.out.println("Ate logo!"); return;
+                case 4: cancelarAgendamento(aluno.getId()); break;
+                case 5: meuTreino(aluno); break;
+                case 6: checkinAluno(aluno); break;
+                case 7: agendamentosPendentes(aluno); break;
+                case 8: System.out.println("Ate logo!"); return;
                 default: System.out.println("Opcao invalida."); break;
             }
         }
@@ -145,7 +147,8 @@ public class Visualizacao {
             System.out.println("10 - Ver treinos");
             System.out.println("11 - Fazer checkin de aluno");
             System.out.println("12 - Ver agendamentos dos meus alunos");
-            System.out.println("13 - Sair");
+            System.out.println("13 - Cancelar agendamento de aluno");
+            System.out.println("14 - Sair");
             System.out.print("Escolha: ");
 
             switch (lerInt()) {
@@ -161,7 +164,8 @@ public class Visualizacao {
                 case 10: verTreinos(); break;
                 case 11: checkinDeAluno(); break;
                 case 12: verAgendamentosDoPersonal(personal); break;
-                case 13: System.out.println("Ate logo!"); return;
+                case 13: cancelarAgendamento(null); break;
+                case 14: System.out.println("Ate logo!"); return;
                 default: System.out.println("Opcao invalida."); break;
             }
         }
@@ -443,6 +447,41 @@ public class Visualizacao {
             System.out.println(aluno.getNome() + " removido. O historico ainda ta salvo.");
         } catch (IllegalArgumentException e) {
             System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    private void cancelarAgendamento(Long idAluno) {
+        List<AgendamentoEntity> lista = idAluno != null
+                ? agendamentoService.listarPorAluno(idAluno)
+                : agendamentoService.listarTodos();
+
+        if (lista.isEmpty()) {
+            System.out.println("Nenhum agendamento encontrado.");
+            return;
+        }
+        System.out.println("\n--- Agendamentos ---");
+        for (AgendamentoEntity ag : lista) {
+            System.out.println("ID: " + ag.getId()
+                    + " | " + ag.getDataHora().format(formatadorDataHora)
+                    + " | " + ag.getAluno().getNome()
+                    + " | " + ag.getStatus().getDescricao());
+        }
+        System.out.print("ID do agendamento a cancelar: ");
+        Long id = lerLong();
+
+        if (idAluno != null) {
+            boolean pertenceAoAluno = lista.stream().anyMatch(ag -> ag.getId().equals(id));
+            if (!pertenceAoAluno) {
+                System.out.println("Esse agendamento nao e seu.");
+                return;
+            }
+        }
+
+        try {
+            agendamentoService.cancelar(id);
+            System.out.println("Agendamento cancelado.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
