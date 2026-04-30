@@ -140,7 +140,7 @@ public class Visualizacao {
             System.out.println("3 - Cadastrar aluno");
             System.out.println("4 - Listar alunos");
             System.out.println("5 - Editar aluno");
-            System.out.println("6 - Cancelar aluno");
+           // System.out.println("6 - Cancelar aluno");
             System.out.println("7 - Deletar aluno");
             System.out.println("8 - Registrar evolucao de aluno");
             System.out.println("9 - Criar treino para aluno");
@@ -159,7 +159,7 @@ public class Visualizacao {
                 case 5: editarAluno(); break;
                 case 6: cancelarAluno(); break;
                 case 7: deletarAluno(); break;
-                case 8: registrarEvolucao(personal); break;
+               // case 8: registrarEvolucao(personal); break;
                 case 9: criarTreino(personal); break;
                 case 10: verTreinos(); break;
                 case 11: checkinDeAluno(); break;
@@ -485,9 +485,9 @@ public class Visualizacao {
         }
     }
 
-    private void registrarEvolucao(PersonalEntity personal) {
-        System.out.println("Em breve.");
-    }
+    //private void registrarEvolucao(PersonalEntity personal) {
+      //  System.out.println("Em breve.");
+    //}
 
     private void criarTreino(PersonalEntity personal) {
         System.out.println("Em breve.");
